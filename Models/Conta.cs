@@ -13,6 +13,7 @@ namespace test.Models
             this.Agencia = agencia;
             this.DataAbertura = DateTime.Now;
             this.Ativo = true;
+            this.Saldo = decimal.Zero;
             this.Pessoa = Pessoa;
             this.Movimentos = new List<Movimento>();
         }
@@ -36,6 +37,7 @@ namespace test.Models
                 throw new SaldoInsuficienteException("O Saldo é insuficiente");
             this.Saldo -= valor;
             Movimento movimento = new Movimento(TipoMovimento.SAQUE, valor, this);
+            this.Movimentos.Add(movimento);
         }
 
         public void Depositar(decimal valor){
@@ -43,8 +45,19 @@ namespace test.Models
                 throw new ValorInvalidoException("Depósito deve ser maior que 0");
             this.Saldo += valor;
             Movimento movimento = new Movimento(TipoMovimento.DEPOSITO, valor, this);
+            this.Movimentos.Add(movimento);
         }
 
-        
+        public void Transferir(decimal valor, Conta contaDestino){
+            
+            if(valor <= 0)
+                throw new ValorInvalidoException("Transferencia deve ser maior que 0");
+            if(valor > this.Saldo)
+                throw new SaldoInsuficienteException("O Saldo é insuficiente");
+            this.Saldo -= valor;
+            contaDestino.Saldo += valor;
+            Movimento movimento = new Movimento(TipoMovimento.TRANSFERENCIA, valor, this);
+            this.Movimentos.Add(movimento);
+        }
     }
 }
