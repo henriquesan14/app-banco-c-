@@ -14,7 +14,7 @@ namespace test.Models
             this.DataAbertura = DateTime.Now;
             this.Ativo = true;
             this.Saldo = decimal.Zero;
-            this.Pessoa = Pessoa;
+            this.Pessoa = pessoa;
             this.Movimentos = new List<Movimento>();
         }
         public int Numero { get; set; }
