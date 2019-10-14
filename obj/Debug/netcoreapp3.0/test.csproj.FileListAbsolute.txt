@@ -1,0 +1,11 @@
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test.deps.json
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test.runtimeconfig.json
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test.runtimeconfig.dev.json
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test.dll
+/home/josehenrique/Área de Trabalho/test/bin/Debug/netcoreapp3.0/test.pdb
+/home/josehenrique/Área de Trabalho/test/obj/Debug/netcoreapp3.0/test.csprojAssemblyReference.cache
+/home/josehenrique/Área de Trabalho/test/obj/Debug/netcoreapp3.0/test.AssemblyInfoInputs.cache
+/home/josehenrique/Área de Trabalho/test/obj/Debug/netcoreapp3.0/test.AssemblyInfo.cs
+/home/josehenrique/Área de Trabalho/test/obj/Debug/netcoreapp3.0/test.dll
+/home/josehenrique/Área de Trabalho/test/obj/Debug/netcoreapp3.0/test.pdb
