@@ -49,7 +49,8 @@ namespace test.Models
         }
 
         public void Transferir(decimal valor, Conta contaDestino){
-            
+            if(contaDestino == null)
+                throw new ContaDestinoNaoInformadaException("Conta destino não informada");
             if(valor <= 0)
                 throw new ValorInvalidoException("Transferencia deve ser maior que 0");
             if(valor > this.Saldo)
@@ -58,6 +59,12 @@ namespace test.Models
             contaDestino.Saldo += valor;
             Movimento movimento = new Movimento(TipoMovimento.TRANSFERENCIA, valor, this);
             this.Movimentos.Add(movimento);
+        }
+
+        public void ExibeExtrato(){
+            foreach(Movimento m in this.Movimentos){
+                Console.WriteLine(m.Tipo + " | Data/hora: " + m.DataHora + " | Valor Movimentado: " + m.ValorMovimento);
+            }
         }
     }
 }

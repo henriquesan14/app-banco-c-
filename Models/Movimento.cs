@@ -9,6 +9,7 @@ namespace test.Models
             this.Tipo = tipo;
             this.ValorMovimento = valorMovimento;
             this.Conta = conta;
+            this.DataHora = DateTime.Now;
         }
         public TipoMovimento Tipo { get; set; }
         public DateTime DataHora { get; set; }

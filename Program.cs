@@ -13,7 +13,7 @@ namespace test
             Conta conta = new Conta(1, "123456", agencia, pessoa);
             conta.Depositar(100);
             conta.Sacar(50);
-            Console.WriteLine(conta.Saldo);
+            conta.ExibeExtrato();
         }
     }
 }
