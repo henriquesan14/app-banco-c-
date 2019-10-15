@@ -24,23 +24,30 @@ namespace test.Models
         }
 
         public Conta AcessarConta(int numero, string senha){
-            if(numero <= 0)
-                throw new ValorInvalidoException("Número da conta inválido");
-            foreach(Conta c in this.Contas){
-                if(c.Numero == numero){
-                    if(ComparaSenha(senha, c.Senha)){
-                        return c;
+            if(this.Contas.Count > 0){
+                if(numero <= 0)
+                    throw new ValorInvalidoException("Número da conta inválido");
+                foreach(Conta c in this.Contas){
+                    if(c.Numero == numero){
+                        if(ComparaSenha(senha, c.Senha)){
+                            return c;
+                        }
+                        throw new SenhaInvalidaException("Senha Inválida");
                     }
-                    throw new SenhaInvalidaException("Senha Inválida");
                 }
+                throw new ContaNaoEncontradaException("Conta de número " + numero + " não foi encontrada");
             }
-            throw new ContaNaoEncontradaException("Conta de número " + numero + " não foi encontrada");
+            return null;
         }
 
         public void ExibeContas(){
-            foreach(Conta c in this.Contas){
-                Console.WriteLine("Conta Nº :" +c.Numero + " | Nome Pessoa: " + c.Pessoa.Nome + " | Saldo: " + c.Saldo);
+            if(this.Contas.Count > 0){
+                foreach(Conta c in this.Contas){
+                    Console.WriteLine("Conta Nº :" +c.Numero + " | Nome Pessoa: " + c.Pessoa.Nome + " | Saldo: " + c.Saldo);
+                }
+                return;
             }
+            Console.WriteLine("Essa agência não possui contas");
         }
 
         private bool ComparaSenha(string senhaInformada, string senhaConta){

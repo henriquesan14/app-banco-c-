@@ -27,6 +27,62 @@ namespace test
                     case 1:
                         CadastrarConta();
                         break;
+                    case 2:
+                        Agencia.ExibeContas();
+                        break;
+                    case 3:
+                        AcessarConta();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        break;
+                }
+            }while(opc != 4);
+        }
+
+        static void MenuOperacoes(Conta conta){
+            int opc;
+            do{
+                Console.WriteLine("GERENCIAR CONTA Nº " + conta.Numero);
+                Console.WriteLine("-------------------");
+                Console.WriteLine("1. Saque");
+                Console.WriteLine("2. Depósito");
+                Console.WriteLine("3. Transferência");
+                Console.WriteLine("4. Extrato");
+                Console.WriteLine("5. Sair");
+                Console.WriteLine("-------------------");
+                opc = int.Parse(Console.ReadLine());
+                switch(opc){
+                    case 1:
+                        Console.WriteLine("Informe o valor do saque: ");
+                        decimal valorSaque = decimal.Parse(Console.ReadLine());
+                        conta.Sacar(valorSaque);
+                        Console.WriteLine("Saque realizado!");
+                        break;
+                    case 2:
+                        Console.WriteLine("Informe o valor do depósito: ");
+                        decimal valorDeposito = decimal.Parse(Console.ReadLine());
+                        conta.Depositar(valorDeposito);
+                        Console.WriteLine("Depósito realizado!");
+                        break;
+                    case 3:
+                        Console.WriteLine("Informe o valor da transferência: ");
+                        decimal valorTransferencia = decimal.Parse(Console.ReadLine());
+                        Console.WriteLine("Informe o número da conta destino: ");
+                        int numeroContaDestino = int.Parse(Console.ReadLine());
+                        conta.Transferir(valorTransferencia, numeroContaDestino);
+                        Console.WriteLine("Transferência realizada!");
+                        break;
+                    case 4:
+                        conta.ExibeExtrato();
+                        MenuOperacoes(conta);
+                        break;
+                    case 5:
+                        MenuContas();
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida");
+                        break;
                 }
             }while(opc != 4);
         }
@@ -71,6 +127,20 @@ namespace test
             string senha = Console.ReadLine();
             Conta conta = new Conta(1, senha, Agencia, pessoa);
             Agencia.CadastrarConta(conta);
+            Console.WriteLine("Conta Cadastrada!");
         } 
+
+        static void AcessarConta(){
+            if(Agencia.Contas.Count > 0){
+                Console.WriteLine("Informe o número da conta: ");
+                int numero = int.Parse(Console.ReadLine());
+                Console.WriteLine("Informe a senha da conta: ");
+                string senha = Console.ReadLine();
+                Conta conta = Agencia.AcessarConta(numero, senha);
+                MenuOperacoes(conta);
+                return;
+            }
+            Console.WriteLine("Essa Agência não possui contas");
+        }
     }
 }

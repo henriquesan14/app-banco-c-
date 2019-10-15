@@ -48,23 +48,40 @@ namespace test.Models
             this.Movimentos.Add(movimento);
         }
 
-        public void Transferir(decimal valor, Conta contaDestino){
-            if(contaDestino == null)
+        public void Transferir(decimal valor, int contaDestino){
+            if(contaDestino <= 0)
                 throw new ContaDestinoNaoInformadaException("Conta destino não informada");
             if(valor <= 0)
                 throw new ValorInvalidoException("Transferencia deve ser maior que 0");
             if(valor > this.Saldo)
                 throw new SaldoInsuficienteException("O Saldo é insuficiente");
             this.Saldo -= valor;
-            contaDestino.Saldo += valor;
+            Conta conta = this.BuscarConta(contaDestino);
+            if(conta == null){
+                throw new ContaNaoEncontradaException("Conta destino não encontrada");
+            }
+            conta.Depositar(valor);
             Movimento movimento = new Movimento(TipoMovimento.TRANSFERENCIA, valor, this);
             this.Movimentos.Add(movimento);
         }
 
-        public void ExibeExtrato(){
-            foreach(Movimento m in this.Movimentos){
-                Console.WriteLine(m.Tipo + " | Data/hora: " + m.DataHora + " | Valor Movimentado: " + m.ValorMovimento);
+        private Conta BuscarConta(int numero){
+            foreach(Conta c in Agencia.Contas){
+                if(c.Numero == numero){
+                    return c;
+                }
             }
+             return null;
+        }
+
+        public void ExibeExtrato(){
+            if(this.Movimentos.Count > 0){
+                foreach(Movimento m in this.Movimentos){
+                    Console.WriteLine(m.Tipo + " | Data/hora: " + m.DataHora + " | Valor Movimentado: " + m.ValorMovimento);
+                }
+                return;
+            }
+            Console.WriteLine("Conta não possui movimentos");
         }
     }
 }
