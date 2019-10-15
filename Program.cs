@@ -7,6 +7,7 @@ namespace test
     class Program
     {
         static Agencia Agencia =  new Agencia(1, new Endereco("Rua Agência", "55555-000", "centro", "123", "Jampa"));
+        static int idConta = 0;
         static void Main(string[] args)
         {   
             MenuContas();
@@ -33,6 +34,8 @@ namespace test
                     case 3:
                         AcessarConta();
                         break;
+                    case 4:
+                        break;
                     default:
                         Console.WriteLine("Opção inválida");
                         break;
@@ -56,22 +59,34 @@ namespace test
                     case 1:
                         Console.WriteLine("Informe o valor do saque: ");
                         decimal valorSaque = decimal.Parse(Console.ReadLine());
-                        conta.Sacar(valorSaque);
-                        Console.WriteLine("Saque realizado!");
+                        try{
+                            conta.Sacar(valorSaque);
+                            Console.WriteLine("Saque realizado!");
+                        }catch(Exception e){
+                            Console.WriteLine(e.Message);
+                        }
                         break;
                     case 2:
                         Console.WriteLine("Informe o valor do depósito: ");
                         decimal valorDeposito = decimal.Parse(Console.ReadLine());
-                        conta.Depositar(valorDeposito);
-                        Console.WriteLine("Depósito realizado!");
+                        try{
+                            conta.Depositar(valorDeposito);
+                            Console.WriteLine("Depósito realizado!");
+                        }catch(Exception e){
+                            Console.WriteLine(e.Message);
+                        }
                         break;
                     case 3:
                         Console.WriteLine("Informe o valor da transferência: ");
                         decimal valorTransferencia = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Informe o número da conta destino: ");
                         int numeroContaDestino = int.Parse(Console.ReadLine());
-                        conta.Transferir(valorTransferencia, numeroContaDestino);
-                        Console.WriteLine("Transferência realizada!");
+                        try{
+                            conta.Transferir(valorTransferencia, numeroContaDestino);
+                            Console.WriteLine("Transferência realizada!");
+                        }catch(Exception e){
+                            Console.WriteLine(e.Message);
+                        }
                         break;
                     case 4:
                         conta.ExibeExtrato();
@@ -115,8 +130,7 @@ namespace test
                 new Endereco(rua, cep, bairro, numero, cidade), cpf, rg);
             }
             Console.WriteLine("Informe o CNPJ: ");
-                string cnpj = Console.ReadLine();
-                Console.WriteLine("Informe o RG: ");
+            string cnpj = Console.ReadLine();
             return new PessoaJuridica(nome, renda, 
                 new Endereco(rua, cep, bairro, numero, cidade), cnpj);
         }
@@ -125,7 +139,7 @@ namespace test
             Pessoa pessoa = CadastrarPessoa();
             Console.WriteLine("Informe uma  senha para sua conta: ");
             string senha = Console.ReadLine();
-            Conta conta = new Conta(1, senha, Agencia, pessoa);
+            Conta conta = new Conta(idConta++, senha, Agencia, pessoa);
             Agencia.CadastrarConta(conta);
             Console.WriteLine("Conta Cadastrada!");
         } 
@@ -136,8 +150,12 @@ namespace test
                 int numero = int.Parse(Console.ReadLine());
                 Console.WriteLine("Informe a senha da conta: ");
                 string senha = Console.ReadLine();
-                Conta conta = Agencia.AcessarConta(numero, senha);
-                MenuOperacoes(conta);
+                try{
+                    Conta conta = Agencia.AcessarConta(numero, senha);
+                    MenuOperacoes(conta);
+                }catch(Exception e){
+                    Console.WriteLine(e.Message);
+                }
                 return;
             }
             Console.WriteLine("Essa Agência não possui contas");
