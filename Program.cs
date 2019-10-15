@@ -7,7 +7,7 @@ namespace test
     class Program
     {
         static Agencia Agencia =  new Agencia(1, new Endereco("Rua Agência", "55555-000", "centro", "123", "Jampa"));
-        static int idConta = 1;
+        static int numeroSequencialContas = 1;
         static void Main(string[] args)
         {   
             MenuContas();
@@ -190,7 +190,7 @@ namespace test
             Console.WriteLine("Informe uma  senha para sua conta: ");
             Console.WriteLine("-------------------------");
             string senha = Console.ReadLine();
-            Conta conta = new Conta(idConta++, senha, Agencia, pessoa);
+            Conta conta = new Conta(numeroSequencialContas++, senha, Agencia, pessoa);
             Agencia.CadastrarConta(conta);
             Console.WriteLine("Conta Cadastrada!");
             Console.WriteLine("-------------------------");
