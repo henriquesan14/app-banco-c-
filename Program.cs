@@ -105,8 +105,17 @@ namespace test
         static Pessoa CadastrarPessoa(){
             Console.WriteLine("Informe seu nome: ");
             string nome = Console.ReadLine();
-            Console.WriteLine("Informe sua renda: ");
-            decimal renda = decimal.Parse(Console.ReadLine());
+            decimal renda;
+            string input;
+            bool isDecimal;
+            do{
+                Console.WriteLine("Informe sua renda: ");
+                input = Console.ReadLine();
+                isDecimal = decimal.TryParse(input, out renda);
+                if(!isDecimal)
+                    Console.WriteLine("Valor inválido, renda deve ser caracteres númericos");
+            }
+            while(!isDecimal);
             Console.WriteLine("ENDEREÇO");
             Console.WriteLine("Informe a rua: ");
             string rua = Console.ReadLine();
