@@ -65,12 +65,18 @@ namespace test
                 Console.WriteLine("-------------------");
                 input = Console.ReadLine();
                 isInt = int.TryParse(input, out opc);
+                bool isDecimal;
+                decimal valor;
                 switch(opc){
                     case 1:
-                        Console.WriteLine("Informe o valor do saque: ");
-                        decimal valorSaque = decimal.Parse(Console.ReadLine());
+                        do{
+                            Console.WriteLine("Informe o valor do saque: ");
+                            isDecimal = decimal.TryParse(Console.ReadLine(), out valor);
+                            if(!isDecimal)
+                                Console.WriteLine("Valor inválido!");
+                        }while(!isDecimal);
                         try{
-                            conta.Sacar(valorSaque);
+                            conta.Sacar(valor);
                             Console.WriteLine("Saque realizado!");
                             Console.WriteLine("-------------------");
                         }catch(Exception e){
@@ -79,10 +85,15 @@ namespace test
                         }
                         break;
                     case 2:
-                        Console.WriteLine("Informe o valor do depósito: ");
-                        decimal valorDeposito = decimal.Parse(Console.ReadLine());
+                        do{
+                            Console.WriteLine("Informe o valor do depósito: ");
+                            Console.WriteLine("-------------------------");
+                            isDecimal = decimal.TryParse(Console.ReadLine(), out valor);
+                            if(!isDecimal)
+                                Console.WriteLine("Valor inválido!");
+                        }while(!isDecimal);
                         try{
-                            conta.Depositar(valorDeposito);
+                            conta.Depositar(valor);
                             Console.WriteLine("Depósito realizado!");
                             Console.WriteLine("-------------------------");
                         }catch(Exception e){
@@ -91,14 +102,24 @@ namespace test
                         }
                         break;
                     case 3:
-                        Console.WriteLine("Informe o valor da transferência: ");
-                        Console.WriteLine("-------------------------");
-                        decimal valorTransferencia = decimal.Parse(Console.ReadLine());
-                        Console.WriteLine("Informe o número da conta destino: ");
-                        Console.WriteLine("-------------------------");
-                        int numeroContaDestino = int.Parse(Console.ReadLine());
+                        do{
+                            Console.WriteLine("Informe o valor da transferência: ");
+                            Console.WriteLine("-------------------------");
+                            isDecimal = decimal.TryParse(Console.ReadLine(), out valor);
+                            if(!isDecimal)
+                                Console.WriteLine("Valor inválido!");
+                        }while(!isDecimal);
+                            int numeroContaDestino;
+                            bool isInteiro;
+                            do{
+                                Console.WriteLine("Informe o número da conta destino: ");
+                                Console.WriteLine("-------------------------");
+                                isInteiro = int.TryParse(Console.ReadLine(), out numeroContaDestino);
+                                if(!isInteiro)
+                                Console.WriteLine("Valor inválido!");
+                            }while(!isInteiro);
                         try{
-                            conta.Transferir(valorTransferencia, numeroContaDestino);
+                            conta.Transferir(valor, numeroContaDestino);
                             Console.WriteLine("Transferência realizada!");
                             Console.WriteLine("-------------------------");
                         }catch(Exception e){
