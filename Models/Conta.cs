@@ -61,6 +61,7 @@ namespace test.Models
                 throw new ContaNaoEncontradaException("Conta destino não encontrada");
             }
             conta.Depositar(valor);
+            conta.Movimentos.Add(new Movimento(TipoMovimento.TRANSFERENCIA, valor, conta));
             Movimento movimento = new Movimento(TipoMovimento.TRANSFERENCIA, valor, this);
             this.Movimentos.Add(movimento);
         }
@@ -78,10 +79,17 @@ namespace test.Models
             if(this.Movimentos.Count > 0){
                 foreach(Movimento m in this.Movimentos){
                     Console.WriteLine(m.Tipo + " | Data/hora: " + m.DataHora + " | Valor Movimentado: " + m.ValorMovimento);
+                    Console.WriteLine("---------------------------------------------------------------------------------------");
                 }
                 return;
             }
             Console.WriteLine("Conta não possui movimentos");
+            Console.WriteLine("-------------------");
+        }
+
+        public void ExibeSaldo(){
+            Console.WriteLine("Saldo em conta: " + this.Saldo);
+            Console.WriteLine("--------------------------------");
         }
     }
 }

@@ -44,10 +44,12 @@ namespace test.Models
             if(this.Contas.Count > 0){
                 foreach(Conta c in this.Contas){
                     Console.WriteLine("Conta Nº :" +c.Numero + " | Nome Pessoa: " + c.Pessoa.Nome + " | Saldo: " + c.Saldo);
+                    Console.WriteLine("------------------------------------------------------------------------------------");
                 }
                 return;
             }
             Console.WriteLine("Essa agência não possui contas");
+            Console.WriteLine("------------------------------");
         }
 
         private bool ComparaSenha(string senhaInformada, string senhaConta){

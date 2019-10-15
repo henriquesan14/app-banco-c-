@@ -7,7 +7,7 @@ namespace test
     class Program
     {
         static Agencia Agencia =  new Agencia(1, new Endereco("Rua Agência", "55555-000", "centro", "123", "Jampa"));
-        static int idConta = 0;
+        static int idConta = 1;
         static void Main(string[] args)
         {   
             MenuContas();
@@ -15,7 +15,10 @@ namespace test
 
         static void MenuContas(){
             int opc;
+            string input;
+            bool isInt;
             do{
+                Console.WriteLine("-------------------");
                 Console.WriteLine("GERENCIAR CONTAS");
                 Console.WriteLine("-------------------");
                 Console.WriteLine("1. Cadastrar contas");
@@ -23,7 +26,8 @@ namespace test
                 Console.WriteLine("3. Acessar uma conta");
                 Console.WriteLine("4. Sair");
                 Console.WriteLine("-------------------");
-                opc = int.Parse(Console.ReadLine());
+                input = Console.ReadLine();
+                isInt = int.TryParse(input, out opc);
                 switch(opc){
                     case 1:
                         CadastrarConta();
@@ -35,16 +39,20 @@ namespace test
                         AcessarConta();
                         break;
                     case 4:
+                        Environment.Exit(1);
                         break;
                     default:
                         Console.WriteLine("Opção inválida");
+                        Console.WriteLine("-------------------");
                         break;
                 }
-            }while(opc != 4);
+            }while(opc != 4 || !isInt);
         }
 
         static void MenuOperacoes(Conta conta){
             int opc;
+            bool isInt;
+            string input;
             do{
                 Console.WriteLine("GERENCIAR CONTA Nº " + conta.Numero);
                 Console.WriteLine("-------------------");
@@ -52,9 +60,11 @@ namespace test
                 Console.WriteLine("2. Depósito");
                 Console.WriteLine("3. Transferência");
                 Console.WriteLine("4. Extrato");
-                Console.WriteLine("5. Sair");
+                Console.WriteLine("5. Exibir Saldo");
+                Console.WriteLine("6. Sair");
                 Console.WriteLine("-------------------");
-                opc = int.Parse(Console.ReadLine());
+                input = Console.ReadLine();
+                isInt = int.TryParse(input, out opc);
                 switch(opc){
                     case 1:
                         Console.WriteLine("Informe o valor do saque: ");
@@ -62,8 +72,10 @@ namespace test
                         try{
                             conta.Sacar(valorSaque);
                             Console.WriteLine("Saque realizado!");
+                            Console.WriteLine("-------------------");
                         }catch(Exception e){
                             Console.WriteLine(e.Message);
+                            Console.WriteLine("-------------------------");
                         }
                         break;
                     case 2:
@@ -72,18 +84,23 @@ namespace test
                         try{
                             conta.Depositar(valorDeposito);
                             Console.WriteLine("Depósito realizado!");
+                            Console.WriteLine("-------------------------");
                         }catch(Exception e){
                             Console.WriteLine(e.Message);
+                            Console.WriteLine("-------------------------");
                         }
                         break;
                     case 3:
                         Console.WriteLine("Informe o valor da transferência: ");
+                        Console.WriteLine("-------------------------");
                         decimal valorTransferencia = decimal.Parse(Console.ReadLine());
                         Console.WriteLine("Informe o número da conta destino: ");
+                        Console.WriteLine("-------------------------");
                         int numeroContaDestino = int.Parse(Console.ReadLine());
                         try{
                             conta.Transferir(valorTransferencia, numeroContaDestino);
                             Console.WriteLine("Transferência realizada!");
+                            Console.WriteLine("-------------------------");
                         }catch(Exception e){
                             Console.WriteLine(e.Message);
                         }
@@ -93,17 +110,22 @@ namespace test
                         MenuOperacoes(conta);
                         break;
                     case 5:
+                        conta.ExibeSaldo();
+                        break;
+                    case 6:
                         MenuContas();
                         break;
                     default:
                         Console.WriteLine("Opção inválida");
+                        Console.WriteLine("-------------------------");
                         break;
                 }
-            }while(opc != 4);
+            }while(opc != 4 || !isInt);
         }
 
         static Pessoa CadastrarPessoa(){
             Console.WriteLine("Informe seu nome: ");
+            Console.WriteLine("-------------------------");
             string nome = Console.ReadLine();
             decimal renda;
             string input;
@@ -114,31 +136,50 @@ namespace test
                 isDecimal = decimal.TryParse(input, out renda);
                 if(!isDecimal)
                     Console.WriteLine("Valor inválido, renda deve ser caracteres númericos");
+                    Console.WriteLine("-------------------------");
             }
             while(!isDecimal);
             Console.WriteLine("ENDEREÇO");
             Console.WriteLine("Informe a rua: ");
+            Console.WriteLine("-------------------------");
             string rua = Console.ReadLine();
             Console.WriteLine("Informe o  número: ");
+            Console.WriteLine("-------------------------");
             string numero = Console.ReadLine();
             Console.WriteLine("Informe o  bairro: ");
+            Console.WriteLine("-------------------------");
             string bairro = Console.ReadLine();
             Console.WriteLine("Informe o  CEP: ");
+            Console.WriteLine("-------------------------");
             string cep = Console.ReadLine();
             Console.WriteLine("Informe a cidade: ");
+            Console.WriteLine("-------------------------");
             string cidade = Console.ReadLine();
-            Console.WriteLine("Informe 1 para Pessoa Física");
-            Console.WriteLine("Informe 2 para Pessoa Jurídica");
-            int tipoPessoa = int.Parse(Console.ReadLine());
+            int tipoPessoa;
+            string inputTipoPessoa;
+            bool isInt;
+            do{
+                Console.WriteLine("Informe seu tipo Pessoa: ");
+                Console.WriteLine("[1] Pessoa Física | [2] Pessoa Jurídica");
+                Console.WriteLine("-------------------------");
+                inputTipoPessoa = Console.ReadLine();
+                isInt = int.TryParse(inputTipoPessoa, out tipoPessoa);
+                if(!isInt)
+                    Console.WriteLine("Valor inválido, tente novamente.");
+                    Console.WriteLine("-------------------------");
+            }while(!isInt);
             if(tipoPessoa == 1){
                 Console.WriteLine("Informe o CPF: ");
+                Console.WriteLine("-------------------------");
                 string cpf = Console.ReadLine();
                 Console.WriteLine("Informe o RG: ");
+                Console.WriteLine("-------------------------");
                 string rg = Console.ReadLine();
                 return new PessoaFisica(nome, renda, 
                 new Endereco(rua, cep, bairro, numero, cidade), cpf, rg);
             }
             Console.WriteLine("Informe o CNPJ: ");
+            Console.WriteLine("-------------------------");
             string cnpj = Console.ReadLine();
             return new PessoaJuridica(nome, renda, 
                 new Endereco(rua, cep, bairro, numero, cidade), cnpj);
@@ -147,17 +188,21 @@ namespace test
         static void CadastrarConta(){
             Pessoa pessoa = CadastrarPessoa();
             Console.WriteLine("Informe uma  senha para sua conta: ");
+            Console.WriteLine("-------------------------");
             string senha = Console.ReadLine();
             Conta conta = new Conta(idConta++, senha, Agencia, pessoa);
             Agencia.CadastrarConta(conta);
             Console.WriteLine("Conta Cadastrada!");
+            Console.WriteLine("-------------------------");
         } 
 
         static void AcessarConta(){
             if(Agencia.Contas.Count > 0){
                 Console.WriteLine("Informe o número da conta: ");
+                Console.WriteLine("-------------------------");
                 int numero = int.Parse(Console.ReadLine());
                 Console.WriteLine("Informe a senha da conta: ");
+                Console.WriteLine("-------------------------");
                 string senha = Console.ReadLine();
                 try{
                     Conta conta = Agencia.AcessarConta(numero, senha);
@@ -168,6 +213,7 @@ namespace test
                 return;
             }
             Console.WriteLine("Essa Agência não possui contas");
+            Console.WriteLine("-------------------------");
         }
     }
 }
