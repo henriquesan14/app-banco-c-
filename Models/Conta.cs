@@ -51,6 +51,8 @@ namespace test.Models
         public void Transferir(decimal valor, int contaDestino){
             if(contaDestino <= 0)
                 throw new ContaDestinoNaoInformadaException("Conta destino não informada");
+            if(contaDestino == this.Numero)
+                throw new TransferenciaInvalidaException("Transferência não pode ser para a mesma conta");
             if(valor <= 0)
                 throw new ValorInvalidoException("Transferencia deve ser maior que 0");
             if(valor > this.Saldo)
